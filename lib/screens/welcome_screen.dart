@@ -18,8 +18,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
     controller = AnimationController(
       vsync: this,
-      lowerBound: 0.2,
-      duration: const Duration(seconds: 2),
+      lowerBound: 10,
+      upperBound: 60,
+      duration: const Duration(seconds: 1),
     );
 
     controller.forward();
@@ -33,7 +34,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white.withOpacity(controller.value),
+      backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
@@ -46,7 +47,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   tag: 'hero',
                   child: SizedBox(
                     child: Image.asset('images/logo.png'),
-                    height: 60.0,
+                    height: controller.value,
                   ),
                 ),
                 Text(
