@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flash_chat_flutter/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -25,10 +26,10 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
     controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 1),
     );
 
-    animation = ColorTween(begin: Colors.lightBlueAccent, end: Colors.white)
+    animation = ColorTween(begin: Colors.blueGrey, end: Colors.white)
         .animate(controller);
 
     controller.forward();
@@ -58,12 +59,16 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                     height: 60,
                   ),
                 ),
-                Text(
-                  'Flash Chat',
-                  style: TextStyle(
-                    fontSize: 45.0,
-                    fontWeight: FontWeight.w900,
-                  ),
+                AnimatedTextKit(
+                  repeatForever: true,
+                  animatedTexts: [
+                    TypewriterAnimatedText('Flash Chat',
+                        speed: const Duration(milliseconds: 200),
+                        textStyle: const TextStyle(
+                          fontSize: 45.0,
+                          fontWeight: FontWeight.w900,
+                        )),
+                  ],
                 ),
               ],
             ),
