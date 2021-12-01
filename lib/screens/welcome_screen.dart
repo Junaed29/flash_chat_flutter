@@ -29,7 +29,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       duration: const Duration(seconds: 1),
     );
 
-    animation = ColorTween(begin: Colors.blueGrey, end: Colors.white)
+    animation = ColorTween(begin: Colors.lightBlue[100], end: Colors.white)
         .animate(controller);
 
     controller.forward();
