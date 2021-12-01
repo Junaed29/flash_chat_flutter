@@ -25,25 +25,13 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
     controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 1),
+      duration: const Duration(seconds: 2),
     );
 
-    animation = CurvedAnimation(
-      parent: controller,
-      curve: Curves.decelerate,
-    );
+    animation = ColorTween(begin: Colors.lightBlueAccent, end: Colors.white)
+        .animate(controller);
 
     controller.forward();
-    //controller.reverse(from: 1.0);
-
-    animation.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        controller.reverse(from: 1.0);
-      } else if (status == AnimationStatus.dismissed) {
-        controller.forward();
-      }
-      print(status);
-    });
 
     controller.addListener(() {
       setState(() {});
@@ -54,7 +42,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: animation.value,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
@@ -67,7 +55,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   tag: 'hero',
                   child: SizedBox(
                     child: Image.asset('images/logo.png'),
-                    height: animation.value * 60,
+                    height: 60,
                   ),
                 ),
                 Text(
