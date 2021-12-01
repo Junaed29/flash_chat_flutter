@@ -14,6 +14,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   late Animation animation;
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
 
@@ -24,10 +30,20 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
     animation = CurvedAnimation(
       parent: controller,
-      curve: Curves.bounceOut,
+      curve: Curves.decelerate,
     );
 
     controller.forward();
+    //controller.reverse(from: 1.0);
+
+    animation.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        controller.reverse(from: 1.0);
+      } else if (status == AnimationStatus.dismissed) {
+        controller.forward();
+      }
+      print(status);
+    });
 
     controller.addListener(() {
       setState(() {});
@@ -51,7 +67,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   tag: 'hero',
                   child: SizedBox(
                     child: Image.asset('images/logo.png'),
-                    height: animation.value * 100,
+                    height: animation.value * 60,
                   ),
                 ),
                 Text(
