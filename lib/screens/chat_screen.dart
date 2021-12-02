@@ -24,7 +24,6 @@ class _ChatScreenState extends State<ChatScreen> {
       final user = _auth.currentUser;
       if (user != null) {
         loggedInUser = user;
-        print(_auth.currentUser?.email);
       }
     } catch (e) {
       print(e);
@@ -41,6 +40,9 @@ class _ChatScreenState extends State<ChatScreen> {
               icon: Icon(Icons.close),
               onPressed: () {
                 //Implement logout functionality
+                _auth.signOut();
+                Navigator.pushNamedAndRemoveUntil(
+                    context, toWelcomeScreen, (route) => false);
               }),
         ],
         title: Text('⚡️Chat'),
