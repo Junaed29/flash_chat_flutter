@@ -91,7 +91,8 @@ class _ChatScreenState extends State<ChatScreen> {
                         try {
                           _fireStore.collection("messages").add({
                             "text": messageText,
-                            "sender": loggedInUser.email
+                            "sender": loggedInUser.email,
+                            "timestamp": FieldValue.serverTimestamp()
                           });
                           textEditingController.clear();
                         } catch (e) {
@@ -131,7 +132,8 @@ class MessagesStreamWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: _fireStore.collection("messages").snapshots(),
+        stream:
+            _fireStore.collection("messages").orderBy("timestamp").snapshots(),
         builder: (context, snapShot) {
           if (!snapShot.hasData) {
             return const Expanded(
@@ -143,7 +145,7 @@ class MessagesStreamWidget extends StatelessWidget {
             );
           }
           List<Widget> messageList = [];
-          var messages = snapShot.data?.docs;
+          var messages = snapShot.data?.docs.reversed;
           for (var message in messages!) {
             var singleMessage = message.data();
             messageList.add(MessageBubble(
@@ -155,6 +157,7 @@ class MessagesStreamWidget extends StatelessWidget {
 
           return Expanded(
             child: ListView(
+              reverse: true,
               children: messageList,
             ),
           );
